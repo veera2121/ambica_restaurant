@@ -1,0 +1,60 @@
+ // HERO
+  const hero = document.createElement("div");
+  hero.className = "hero mosaic-item";
+  hero.innerHTML = `
+    <div class="img-box">
+      <img src="${mosaicState[0].img}" alt="${mosaicState[0].name}">
+    </div>
+    <div class="card-label">
+      <span>${mosaicState[0].name}</span>
+      <span class="price">₹${mosaicState[0].price}</span>
+    </div>`;
+  mosaicGrid.appendChild(hero);
+
+  // RIGHT STACK (2 images)
+  const rightStack = document.createElement("div");
+  rightStack.className = "right-stack";
+  for(let i=1; i<3; i++){
+    const small = document.createElement("div");
+    small.className = "small mosaic-item";
+    small.innerHTML = `
+      <div class="img-box">
+        <img src="${mosaicState[i].img}" alt="${mosaicState[i].name}">
+      </div>
+      <div class="card-label">
+        <span>${mosaicState[i].name}</span>
+        <span class="price">₹${mosaicState[i].price}</span>
+      </div>`;
+    rightStack.appendChild(small);
+  }
+  mosaicGrid.appendChild(rightStack);
+
+  // BOTTOM ROW (5 images)
+  const bottomRow = document.createElement("div");
+  bottomRow.className = "bottom-row";
+  for(let i=3; i<8; i++){
+    const small = document.createElement("div");
+    small.className = "small mosaic-item";
+    small.innerHTML = `
+      <div class="img-box">
+        <img src="${mosaicState[i].img}" alt="${mosaicState[i].name}">
+      </div>
+      <div class="card-label">
+        <span>${mosaicState[i].name}</span>
+        <span class="price">₹${mosaicState[i].price}</span>
+      </div>`;
+    bottomRow.appendChild(small);
+  }
+  mosaicGrid.appendChild(bottomRow);
+}
+
+// Rotate whole grid
+function rotateMosaic(){
+  mosaicState.push(mosaicState.shift());
+  renderMosaic();
+}
+
+renderMosaic();
+mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
+</script>
+

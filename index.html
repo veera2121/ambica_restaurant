@@ -157,28 +157,207 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
 
-      <!-- Hamburger for mobile -->
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-
-      <!-- Mobile dropdown menu -->
-      <ul class="mobile-menu" id="mobileMenu">
-        <li><a href="#menu">Menu</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-  </div>
+     
 </header>
+<!-- Global Search Bar (Initially Hidden) -->
+
+<!-- ✅ Global Search Bar (Initially Hidden on Mobile) -->
+<!-- Global Search Bar (Initially Hidden on Mobile) -->
+<div id="global-search" class="global-search">
+    <input type="text" id="searchInput" placeholder="Search menu items...">
+    <button onclick="searchAllSections()">Search</button>
+</div>
+
+<script>
+const searchInput = document.getElementById("searchInput");
+searchInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        searchAllSections();
+    }
+});
+
+function searchAllSections() {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) return;
+
+    // Your existing search code here...
+}
+</script>
+
+
+<a onclick="searchMenuItemSmart()" class="button">
+  <i class="icon fas fa-search"></i>
+</a>
+
+
+<style>
+/* Default: search bar visible */
+/* Default: search bar visible on desktop */
+
+.global-search {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  position: relative; /* changed from sticky to fixed */
+  top: 0;           /* stick to top of viewport */
+  left: 0;          /* full width */
+  right: 0;
+  z-index: 999;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1); /* optional shadow */
+}
+
+/* Input and button stay the same */
+.global-search input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.global-search button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #f54990;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .global-search {
+    display: none;
+  }
+
+  .global-search.active {
+    display: flex;
+  }
+  .global-search {
+  position: relative;
+  }
+}
+
+</style>
+
+
+<script>
+
+
+
+
+// Navigate to section based on input
+
+// Section IDs
+const sections = {
+  home: "home",
+  menu: "menu",
+  offers: "offers",
+  contact: "contact"
+};
+
+function handleEnter(e) {
+  if (e.key === "Enter") searchAllSections();
+}
+
+function searchAllSections() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  if (!query) return;
+
+  let found = false;
+  let firstMatch = null;
+
+  // 1️⃣ SEARCH MENU
+  const tabs = document.querySelectorAll("#tabs button");
+  document.querySelectorAll("#menu-wrapper .item-row").forEach(row => {
+    row.classList.remove("highlight");
+    row.querySelector(".item-name").classList.remove("highlight");
+    row.querySelector(".item-price").classList.remove("highlight");
+  });
+  tabs.forEach(tab => tab.classList.remove("active", "has-match"));
+
+categoriesOrder.forEach(cat => {
+  const catItems = grouped[cat] || [];
+  const catCard = document.querySelector(`.category-box[data-cat="${cat}"]`);
+  if (!catCard) return; // ✅ skip if category card doesn't exist
+
+  let hasMatch = false;
+
+  catItems.forEach((item, idx) => {
+    if (item.name.toLowerCase().includes(query)) {
+      found = true;
+      hasMatch = true;
+
+      const row = catCard.querySelectorAll(".item-row")[idx];
+      row.classList.add("highlight");
+      row.querySelector(".item-name").classList.add("highlight");
+      row.querySelector(".item-price").classList.add("highlight");
+
+      if (!firstMatch) firstMatch = row;
+    }
+  });
+
+  catCard.style.display = hasMatch ? "flex" : "none";
+
+  tabs.forEach(tab => {
+    if (tab.textContent.toLowerCase() === cat && hasMatch) tab.classList.add("has-match");
+  });
+});
+
+
+  // 2️⃣ SEARCH OTHER SECTIONS (Home, Offers, Contact)
+Object.keys(sections).forEach(sec => {
+  if (sec === "menu") return; // Already handled
+  const secEl = document.getElementById(sections[sec]);
+  if (!secEl) return;
+
+  const text = secEl.textContent.toLowerCase();
+  
+  if (text.includes(query)) {
+    found = true;
+    secEl.classList.add("highlight-section");
+    secEl.style.display = "block"; // Make sure section is visible
+    if (!firstMatch) firstMatch = secEl;
+  } else {
+    secEl.classList.remove("highlight-section");
+    // Optionally hide sections that don't match
+    // secEl.style.display = "none";
+  }
+});
+
+ 
+
+  if (!found) {
+    alert("No results found for '" + query + "'");
+    return;
+  }
+
+  if (firstMatch) firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  // Make first matched menu tab active if applicable
+  if (firstMatch && firstMatch.classList.contains("category-box")) {
+    const firstCategory = firstMatch.dataset.cat;
+    tabs.forEach(tab => {
+      tab.classList.remove("active");
+      if (tab.textContent.toLowerCase() === firstCategory) tab.classList.add("active");
+    });
+  }
+
+  // Close mobile search bar
+  const bar = document.getElementById("global-search");
+  if (window.innerWidth <= 768) bar.classList.remove("active");
+}
+
+</script>
 
 <style>
 header {
   width: 100%;
-  padding: 15px 30px;
+  padding: 5px 30px;
   background-image: url("images/srikanaya.png");
   background-size: cover;      /* makes the image fill the header */
   background-position: center; /* centers the image */
@@ -440,7 +619,7 @@ hamburger.addEventListener('click', () => {
 
 </style>
 
-<section class="hero">
+<section id="home" class="hero">
   <div class="gallery-container" id="galleryRoot">
     <div id="mainImage" class="big-image">
       <img src="images/img1.webp" id="bigImg" alt="big">
@@ -614,7 +793,7 @@ hamburger.addEventListener('click', () => {
       <!-- Duplicate set if you want infinite loop -->
 
        <!-- 10 Images with Hover Effect -->
-      <img src="images/item1.jpg" 
+      <img src="images/friedrice.jpg" 
            class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-xl 
                   transition-all duration-300 hover:scale-110 hover:shadow-[0_0_20px_#ffd700]" />
 
@@ -669,23 +848,26 @@ hamburger.addEventListener('click', () => {
 /* ================================ */
 /* Floating WhatsApp Icon           */
 /* ================================ */
+/* WhatsApp Floating Button         */
+/* ================================ */
+
 .whatsapp-chat {
-  display: flex;               /* show by default */
+  display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 25px;                /* distance from bottom */
-  right: 20px;                 /* distance from right */
+  bottom: 70px;                /* 55px nav + 15px gap */
+  right: 20px;
   width: 50px;
   height: 50px;
   font-size: 24px;
   border-radius: 50%;
-  background: #25D366;         /* WhatsApp green */
+  background: #25D366;
   color: #fff;
   z-index: 11000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
   cursor: pointer;
-  animation: float 1.5s ease-in-out infinite; /* floating animation */
+  animation: float 1.5s ease-in-out infinite;
   text-decoration: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -706,24 +888,23 @@ hamburger.addEventListener('click', () => {
 /* ================================ */
 @media (max-width: 768px) {
   .whatsapp-chat {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     font-size: 20px;
-    bottom: 40px;
-    left: 30px;
+    bottom: 75px;      /* stays above nav */
+    left: 18px;
   }
 }
 
 @media (max-width: 480px) {
   .whatsapp-chat {
-    width: 36px;
-    height: 36px;
+    width: 38px;
+    height: 38px;
     font-size: 18px;
-    bottom: 15px;
-    left: 12px;
+    bottom: 72px;      /* mobile nav bar safe zone */
+    left: 15px;
   }
 }
-
 
 /* ========================== */
 </style>
@@ -739,6 +920,7 @@ hamburger.addEventListener('click', () => {
   width: 100%;
   overflow: hidden;
   border-radius: 15px; /* optional rounded corners */
+  padding:30px;
 }
 
 /* Banner Image */
@@ -757,6 +939,152 @@ hamburger.addEventListener('click', () => {
 }
 
 </style>
+
+<!-- ===== OUR CATEGORIES SECTION ===== -->
+<section class="categories-section">
+  <h2 class="categories-title">Our Categories</h2>
+
+  <div class="categories-row">
+    <div class="category-item">
+      <img src="images/non veg biryani.jpg" alt="non veg biryani">
+      <span class="highlight-name">NON -VEG BIRYANI</span>
+    </div>
+    <div class="category-item">
+      <img src="images/veg birynai.jpg" alt="veg birynai">
+      <span class="highlight-name">VEG BIRYANI</span>
+    </div>
+    <div class="category-item">
+      <img src="images/non veg curry.jpg" alt="non veg curry">
+      <span class="highlight-name">NON VEG CURRIES</span>
+    </div>
+    <div class="category-item">
+      <img src="images/veg curry.jpg" alt="veg curry">
+      <span class="highlight-name">VEG CURRIES</span>
+    </div>
+    <div class="category-item">
+      <img src="images/fish curry.jpg" alt="Fish curry">
+      <span class="highlight-name">FISH CURRIES</span>
+    </div>
+    <div class="category-item">
+      <img src="images/friedrice.jpg" alt="friderice">
+      <span class="highlight-name">FRIED RICE</span>
+    </div>
+   
+    <div class="category-item">
+      <img src="images/bevarages.jpg" alt="bevarages">
+      <span class="highlight-name">BEVARAGES</span>
+    </div>
+    <div class="category-item">
+      <img src="images/rice.jpg" alt="RICE">
+      <span class="highlight-name">RICE</span>
+    </div>
+    <div class="category-item">
+      <img src="images/roti.jpg" alt="ROTI & NONS">
+      <span class="highlight-name">ROTI & NONS</span>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ===== OUR CATEGORIES SECTION ===== */
+.categories-section {
+  padding: 50px 20px;
+  background: #fff9f0;
+}
+
+.categories-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  background: linear-gradient(45deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Horizontal Scroll Row */
+.categories-row {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+/* Hide scrollbar */
+.categories-row::-webkit-scrollbar {
+  display: none;
+}
+.categories-row {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Square Category Cards */
+.category-item {
+  min-width: 150px;
+  flex-shrink: 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.category-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Highlighted Name Below Image */
+.highlight-name {
+  display: block;
+  margin-top: 8px;
+  font-weight: 700;
+  font-size: 1rem;
+  background: linear-gradient(45deg, #ff0080, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.category-item:hover img {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.category-item:hover .highlight-name {
+  transform: scale(1.1);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .category-item {
+    min-width: 120px;
+  }
+
+  .category-item img {
+    height: 120px;
+  }
+}
+</style>
+
+<script>
+// Optional: Scroll progress bar functionality
+const row = document.querySelector('.categories-row');
+const progress = document.querySelector('.categories-scroll-progress');
+
+row.addEventListener('scroll', () => {
+  const scrollLeft = row.scrollLeft;
+  const scrollWidth = row.scrollWidth - row.clientWidth;
+  const scrolled = (scrollLeft / scrollWidth) * 100;
+  progress.style.width = scrolled + '%';
+});
+</script>
+
+
+
+
 
    <!-- ===== MENU SECTION ===== -->
 <section id="menu" class="menu-section">
@@ -834,6 +1162,64 @@ hamburger.addEventListener('click', () => {
 .category-scroll {
   display: none; /* hidden on desktop */
 }
+/* Highlight matching item */
+.item-row.highlight {
+  background: linear-gradient(135deg, #ff8c00, #ff0080);
+  color: #fff;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.item-name.highlight, .item-price.highlight {
+  color: #fff;
+  font-weight: 800;
+}
+/* Search match highlight on tabs */
+#tabs button.has-match {
+  border: 2px solid var(--accent1);
+  background: linear-gradient(45deg, #ff8c00, #ff0080);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(255, 140, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+/* Optional: subtle pulse animation for tabs with matches */
+#tabs button.has-match::after {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: #fff;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 4px;
+  animation: pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+/* Ensure active tab always stands out */
+#tabs button.active {
+  background: linear-gradient(135deg, var(--accent1), var(--accent2));
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+#tabs {
+  position: sticky;
+  top: 0; /* Tabs stick to top naturally */
+  background: #fff;
+  z-index: 1000;
+  padding: 8px 0;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+}
+
 
 /* MOBILE ONLY */
 @media (max-width: 768px) {
@@ -931,12 +1317,16 @@ function renderTabs(){
   categoriesOrder.forEach(cat=>{const b=document.createElement('button'); b.textContent=capitalize(cat); b.onclick=()=>{setActiveTabAndFilter(cat,b);}; tabs.appendChild(b);});
 }
 
-function setActiveTabAndFilter(cat, btn){
-  document.querySelectorAll('#tabs button').forEach(x=>x.classList.remove('active'));
+function setActiveTabAndFilter(cat, btn) {
+  // Remove old active class
+  document.querySelectorAll('#tabs button').forEach(x => x.classList.remove('active'));
   btn.classList.add('active');
-  if(cat!=='all'){renderAll(cat); const card=document.querySelector(`.category-box[data-cat="${cat}"]`); if(card) card.scrollIntoView({behavior:'smooth', inline:'center'});}
-  else renderAll('all');
+
+  // Just render filtered cards — no scrolling
+  renderAll(cat !== 'all' ? cat : 'all');
 }
+
+
 
 function renderAll(filter='all'){
   const wrapper=document.getElementById('menu-wrapper'); wrapper.innerHTML='';
@@ -974,6 +1364,75 @@ function capitalize(s){return s&&s.length?s.charAt(0).toUpperCase()+s.slice(1):s
 function escapeHtml(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 loadSheet();
+
+function searchMenuItem() {
+  const query = document.getElementById("searchInput").value.trim().toLowerCase();
+  if (!query) return;
+
+  // Scroll to menu section
+  const menuSection = document.getElementById("menu");
+  if (menuSection) menuSection.scrollIntoView({ behavior: "smooth" });
+
+  // Clear previous highlights
+  document.querySelectorAll("#menu-wrapper .item-row").forEach(row => {
+    row.classList.remove("highlight");
+    row.querySelector(".item-name").classList.remove("highlight");
+    row.querySelector(".item-price").classList.remove("highlight");
+  });
+
+  const items = document.querySelectorAll("#menu-wrapper .item-row");
+  let found = false;
+  let firstMatch = null;
+  let targetCategory = null;
+
+  // Find matching items
+  items.forEach(row => {
+    const name = row.querySelector(".item-name").textContent.toLowerCase();
+    if (name.includes(query)) {
+      found = true;
+      firstMatch = firstMatch || row;
+
+      const catCard = row.closest(".category-box");
+      targetCategory = catCard.dataset.cat;
+
+      // Highlight
+      row.classList.add("highlight");
+      row.querySelector(".item-name").classList.add("highlight");
+      row.querySelector(".item-price").classList.add("highlight");
+
+      // Make sure the category is visible
+      catCard.style.display = "flex";
+    }
+  });
+
+  if (!found) {
+    alert("No menu items found matching '" + query + "'");
+    return;
+  }
+
+  // Switch tab to target category
+  if (targetCategory) {
+    const tabs = document.querySelectorAll("#tabs button");
+    tabs.forEach(tab => {
+      tab.classList.remove("active");
+      if (tab.textContent.toLowerCase() === targetCategory) {
+        tab.classList.add("active");
+      }
+    });
+
+    // Render only the target category
+    renderAll(targetCategory);
+  }
+
+  // Scroll to first matched item
+  if (firstMatch) firstMatch.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  // Close mobile search bar after search
+  const bar = document.getElementById("global-search");
+  if (window.innerWidth <= 768) bar.classList.remove("active");
+}
+
+
 </script>
 
 
@@ -1203,11 +1662,11 @@ changeImage(0);
 // Sample special dishes data
 // Sample special dishes data using local images
 const specialDishes = [
-  { name: "Grilled Salmon", price: "499", img: "images/f1.webp", badge:"Chef's Choice" },
-  { name: "Spicy Chicken Wings", price: "299", img: "images/f2.webp", badge:"Hot & Trending" },
-  { name: "Chocolate Lava Cake", price: "199", img: "images/f3.webp", badge:"Sweet Special" },
-  { name: "Veggie Pizza", price: "349", img: "images/f4.webp", badge:"Popular" },
-  { name: "Pasta Alfredo", price: "399", img: "images/f5.webp", badge:"Chef's Pick" }
+  { name: "Komuju pitta biryani", price: "420", img: "images/kamjupitta_biryani.jpg", badge:"Chef's Choice" },
+  { name: "Fish biryani", price: "550", img: "images/fishbiryani.jpg", badge:"Hot & Trending" },
+  { name: "SP Kaju biryani", price: "350", img: "images/kaju biryani.jpg", badge:"Sweet Special" },
+  { name: "Naatu kodi biryani", price: "550", img: "images/natukodu.jpg", badge:"Popular" },
+  { name: "Prawns biryani", price: "380", img: "images/prawnsbiryani.jpg", badge:"Chef's Pick" }
 ];
 
 const wrapper = document.getElementById("special-wrapper");
@@ -1401,14 +1860,14 @@ specialDishes.forEach(dish => {
 </style>
 <script>
 const dishes = [
-  {img:"images/f1.jpg", name:"Spicy Chicken", price:350},
-  {img:"images/f2.jpg", name:"Paneer Butter Masala", price:280},
-  {img:"images/f3.jpg", name:"Grilled Fish", price:400},
-  {img:"images/f4.jpg", name:"Veg Biryani", price:220},
-  {img:"images/f5.jpg", name:"Mutton Curry", price:450},
-  {img:"images/f6.jpg", name:"Cheese Pizza", price:300},
-  {img:"images/f7.jpg", name:"Pasta Alfredo", price:320},
-  {img:"images/f8.jpg", name:"Tandoori Chicken", price:390}
+  {img:"images/chickendum300.jpg", name:"Chicken Dum biryani",},
+  {img:"images/vegbiryani280.jpg", name:"SP Veg biryani"},
+  {img:"images/fishbiryani550.jpg", name:"Fish biryani"},
+  {img:"images/mixedbiryani450.jpg", name:"Mixed biryani",},
+  {img:"images/prawnsbiryani380.jpg", name:"Prawns biryani",},
+  {img:"images/gongurabiryani.jpg", name:"Gongura Chicken biryani",},
+  {img:"images/pannerbiryani.jpg", name:"Panner Biryani", },
+  {img:"images/roti45.jpg", name:"Roti",}
 ];
 
 let mosaicState = [...dishes];
@@ -1428,7 +1887,7 @@ function renderMosaic(){
     </div>
     <div class="card-label">
       <span>${mosaicState[0].name}</span>
-      <span class="price">₹${mosaicState[0].price}</span>
+      
     </div>`;
   mosaicGrid.appendChild(hero);
 
@@ -1444,7 +1903,7 @@ function renderMosaic(){
       </div>
       <div class="card-label">
         <span>${mosaicState[i].name}</span>
-        <span class="price">₹${mosaicState[i].price}</span>
+       
       </div>`;
     rightStack.appendChild(small);
   }
@@ -1462,7 +1921,7 @@ function renderMosaic(){
       </div>
       <div class="card-label">
         <span>${mosaicState[i].name}</span>
-        <span class="price">₹${mosaicState[i].price}</span>
+        
       </div>`;
     bottomRow.appendChild(small);
   }
@@ -1916,10 +2375,20 @@ setInterval(updateWeekendSpecials, 4000);
           <p>📍  Brodipet Rd, near Sri Rama Chandra Gardens, Brodipet, Palakollu, Andhra Pradesh 534260</p>
           <p>📞 +91 95530 26761</p>
           <p></p>
+           <div class="sk-footer-box">
+     
             <a href="tel:+9195530 26761" class="call-btn">📞 Call Now</a>
         </div>
 
       </div>
+<div class="opening-hours-box">
+  <h3>Opening Hours</h3>
+  <ul>
+    <li><strong>Monday – Sunday</strong></li>
+    <li><span>Lunch</span> : 12:00 PM – 3:30 PM</li>
+    <li><span>Dinner</span> : 6:00 PM – 11:00 PM</li>
+  </ul>
+</div>
 
     </div>
   </div>
@@ -2066,6 +2535,43 @@ setInterval(updateWeekendSpecials, 4000);
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255,0,128,0.4);
 }
+/* Opening Hours Box */
+.opening-hours-box {
+  margin-top: 15px;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 0, 128, 0.15);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+}
+
+.opening-hours-box h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 10px;
+  background: linear-gradient(45deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.opening-hours-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.opening-hours-box li {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 6px 0;
+  color: #444;
+}
+
+.opening-hours-box li span {
+  color: #ff0080;
+  font-weight: 700;
+}
 
 /* ------- Mobile ------- */
 @media(max-width: 768px) {
@@ -2097,50 +2603,241 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   this.reset();
 });
 </script>
-<!-- Footer Section -->
-<footer class="footer-section">
-  <div class="container">
-    <div class="footer-grid">
-    <p class="footer-copy">&copy; 2025 Jay's Restaurant. All rights reserved.</p>
+
+
+<div class="bottom-nav">
+  <div class="button-container">
+
+    <a href="#home" class="button">
+      <i class="icon fas fa-home"></i>
+    </a>
+
+    <a class="button" onclick="toggleMobileSearch()">
+      <i class="icon fas fa-search"></i>
+    </a>
+
+    <a href="#menu" class="button">
+      <i class="icon fas fa-utensils"></i>
+    </a>
+
+    <a href="#offers" class="button">
+      <i class="icon fas fa-tags"></i>
+    </a>
+
   </div>
+</div>
+
+
+
+
+
+<!-- Sliding Search Box -->
+
+
+<style>
+html {
+  scroll-padding-bottom: 70px; /* same or slightly more than nav height */
+  scroll-behavior: smooth;
+}
+/* Full-width fixed bottom nav */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 55px;
+  z-index: 99999;
+  pointer-events: auto;
+}
+
+.bottom-nav.reveal,
+.button-container.reveal {
+  /* Prevent disappearing */
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Full-width bar */
+.button-container {
+  width: 100%;
+  height: 55px;
+  background-color: rgba(245, 73, 144);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  border-radius: 0;     /* removes floating round corners */
+  box-shadow: none;     /* removes floating shadow */
+}
+
+/* Icon Buttons */
+.button {
+  outline: 0 !important;
+  border: 0 !important;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px);
+}
+
+/* Icon size */
+.icon {
+  font-size: 22px;
+}
+
+/* Hide on desktop */
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none !important;
+  }
+}
+
+
+
+
+
+</style>
+<script>
+function toggleMobileSearch() {
+  const bar = document.getElementById("global-search");
+  if (window.innerWidth <= 768) {
+    bar.classList.toggle("active");
+
+    // Scroll into view when opened
+    if (bar.classList.contains("active")) {
+      bar.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+}
+
+
+</script>
+
+
+</style>
+<!-- ====================== SRIKANYA RESTAURANT — FOOTER ====================== -->
+<footer class="sk-footer">
+
+  <!-- Container -->
+  <div class="sk-container">
+
+    <!-- ===== About Section ===== -->
+    <div class="sk-footer-box">
+      <h3>About Srikanya</h3>
+      <p>
+        Srikanya Restaurant is a premium multi-cuisine family dining destination
+        known for Authentic Andhra Meals, Biryani Specials, Tandoori Starters,
+        Chinese Dishes, and delicious Veg & Non-Veg varieties. Serving quality,
+        hygiene and taste since years.
+      </p>
+      <p class="keywords">
+        Keywords: Srikanya Restaurant, Best Family Restaurant Andhra,
+        Srikanya Biryani, Andhra Meals, Non Veg Restaurant, Veg Restaurant,
+        Tiffins, Lunch, Dinner, Yanam Restaurants, Kakinada Restaurants.
+      </p>
+    </div>
+
+    
+
+    <!-- ===== Opening Hours ===== -->
+   
+
+  </div>
+
+  <!-- Copyright -->
+  <div class="sk-copy">
+    © 2025 Srikanya Restaurant. All Rights Reserved.
+  </div>
+
 </footer>
 
 <style>
-.footer-section { 
-  padding:40px 20px; 
-  background:#222; 
-  color:#fff; 
-  font-family: Arial, sans-serif;
+  /* ================= Srikanya Restaurant Footer ================== */
+
+  /* ===========================
+   FOOTER MAIN WRAPPER
+=========================== */
+.sk-footer {
+  background: linear-gradient(135deg, #fff1d6, #ffe6ff);
+  padding: 50px 20px 20px;
+  margin-top: 50px;
+  border-top: 3px solid rgba(255, 0, 128, 0.2);
 }
 
-.footer-grid { 
-  display:grid; 
-  grid-template-columns:1fr 1fr; 
-  gap:20px; 
-  margin-bottom:20px; 
+/* ===========================
+   FOOTER CONTAINER
+=========================== */
+.sk-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 35px;
+  justify-content: space-between;
 }
 
-.footer-info h3 { 
-  font-size:1.5rem; 
-  margin-bottom:10px; 
+/* ===========================
+   FOOTER BOXES
+=========================== */
+.sk-footer-box {
+  flex: 1 1 320px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 25px;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255, 0, 128, 0.18);
 }
 
-.footer-info p { 
-  margin:4px 0; 
+/* Footer Headings */
+.sk-footer-box h3 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(45deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.footer-copy { 
-  text-align:center; 
-  font-size:0.9rem; 
-  opacity:0.7; 
+/* Paragraphs */
+.sk-footer-box p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+  font-weight: 500;
 }
 
-/* Footer mobile */
-@media(max-width:768px){ 
-  .footer-grid { 
-    grid-template-columns:1fr; 
-  } 
+/* Keywords */
+.sk-footer-box .keywords {
+  margin-top: 8px;
+  color: #666;
+  font-style: italic;
+  font-size: 14px;
 }
+
+/* ===========================
+   COPYRIGHT BAR
+=========================== */
+.sk-copy {
+  text-align: center;
+  margin-top: 35px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 0, 128, 0.25);
+  font-size: 14px;
+  color: #555;
+  font-weight: 600;
+}
+
 </style>
 
 
