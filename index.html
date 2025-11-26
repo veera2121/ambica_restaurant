@@ -1579,7 +1579,7 @@ changeImage(0);
 /* Horizontal scroll wrapper */
 
 .special-wrapper {
-  background: linear-gradient(90deg, #ff00ffb6, #027e8a, #147203);
+  background: linear-gradient(90deg, #e2d5e2b6, #dbf9fc, #767775);
   display: flex;
   gap: 22px;
   overflow-x: auto;
@@ -1587,18 +1587,7 @@ changeImage(0);
   scroll-behavior: smooth;
 }
 
-.neon-box {
-  width: 300px;
-  padding: 20px;
-  background: rgba(0,0,0,0.6);
-  border-radius: 12px;
-  border: 3px solid transparent;
-  box-shadow:
-    0 0 10px #ff00ff,
-    0 0 20px #00ffff,
-    0 0 30px #ffea00,
-    0 0 40px #ff00ff inset;
-}
+
 
 .special-wrapper::-webkit-scrollbar {
   height: 10px;
@@ -1616,8 +1605,8 @@ changeImage(0);
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  box-shadow:0 12px 25px rgba(0,0,0,0.15);
-  background: #302d2d;
+  box-shadow:0 12px 25px rgba(230, 227, 227, 0.15);
+  background: #faf4f4;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1709,6 +1698,137 @@ specialDishes.forEach(dish => {
 
 
 
+<!-- ===== SIGNATURE DISHES SECTION ===== -->
+<section class="signature-section">
+  <h2 class="signature-title">✨ Signature Dishes</h2>
+
+  <div class="signature-container">
+
+    <div class="dish-card animate-left">
+      <img src="images/dish1.jpg" alt="Signature Dish">
+      <div class="dish-info">
+        <h3>🔥 Special Chicken Biryani</h3>
+        <p>Our most loved aromatic biryani made with premium spices.</p>
+      </div>
+    </div>
+
+    <div class="dish-card animate-left">
+      <img src="images/dish2.jpg" alt="Signature Dish">
+      <div class="dish-info">
+        <h3>🍗 Grilled Tandoori Chicken</h3>
+        <p>Charcoal grilled perfection with smoky flavors.</p>
+      </div>
+    </div>
+
+    <div class="dish-card animate-left">
+      <img src="images/dish3.jpg" alt="Signature Dish">
+      <div class="dish-info">
+        <h3>🍽️ Special Veg Thali</h3>
+        <p>A wholesome meal with 12 varieties, freshly prepared.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+
+/* ===== SIGNATURE DISHES STYLE ===== */
+
+/* Section Title */
+.signature-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  font-weight: 800;
+  background: linear-gradient(45deg, #ff0080, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Container */
+.signature-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* Card */
+.dish-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  opacity: 0;
+  transform: translateX(-70px);
+  transition: all 0.8s ease;
+}
+
+/* Dish Image */
+.dish-card img {
+  width: 130px;
+  height: 130px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 2px solid #fff3;
+}
+
+/* Text */
+.dish-info h3 {
+  font-size: 1.4rem;
+  margin: 0 0 6px 0;
+  color: #fff;
+}
+
+.dish-info p {
+  margin: 0;
+  color: #eee;
+}
+
+/* Reveal Animation on Scroll */
+.dish-card.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dish-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .dish-card img {
+    width: 110px;
+    height: 110px;
+  }
+}
+
+  
+</style>
+
+<script>
+
+  const items = document.querySelectorAll('.animate-left');
+
+  function showOnScroll() {
+    items.forEach(item => {
+      const top = item.getBoundingClientRect().top;
+      if (top < window.innerHeight - 100) {
+        item.classList.add('show');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', showOnScroll);
+  showOnScroll();
 
 
 </script>
@@ -1727,6 +1847,7 @@ specialDishes.forEach(dish => {
 .recommended-section {
   padding:40px 20px;
   background: linear-gradient(120deg, #f6d365, #fda085);
+  border-radius: 30px;
 }
 
 .section-title { text-align:center; font-size:2rem; font-weight:800; margin-bottom:20px;
@@ -2017,6 +2138,7 @@ mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
 .special-section { 
   padding:50px 20px; 
   background:#f8def7; 
+  border-radius: 30px;
 }
 
 .section-title { 
@@ -2247,7 +2369,8 @@ setInterval(updateWeekendSpecials, 4000);
 
 .scroll-gallery-section {
   padding: 50px 20px;
-  background: #fff9f0;
+  background: #dfc1dc;
+  border-radius: 30px;
 }
 
 .scroll-gallery-title {
@@ -2423,7 +2546,8 @@ setInterval(updateWeekendSpecials, 4000);
   /* ------- Section Base ------- */
 .contact-section {
   padding: 70px 20px;
-  background: linear-gradient(135deg, #fff6e8, #ffe3ff);
+  background: linear-gradient(135deg, #d2ffea, #ffd4ff);
+  border-radius: 30px;
 }
 
 .container {
