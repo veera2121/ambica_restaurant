@@ -169,6 +169,7 @@ body {
 <div id="global-search" class="global-search">
     <input type="text" id="searchInput" placeholder="Search menu items...">
     <button onclick="searchAllSections()">Search</button>
+    
 </div>
 
 <script>
@@ -189,7 +190,7 @@ function searchAllSections() {
 
 
 <a onclick="searchMenuItemSmart()" class="button">
-  <i class="icon fas fa-search"></i>
+
 </a>
 
 
@@ -358,23 +359,99 @@ Object.keys(sections).forEach(sec => {
 </script>
 
 <style>
+/* Header Styles (Your Code) */
 header {
   width: 100%;
-  padding: 5px 30px;
-  background-image: url("images/srikanaya.png");
-  background-size: cover;      /* makes the image fill the header */
-  background-position: center; /* centers the image */
-  background-repeat: no-repeat; /* prevents repeating */
+   height:120px;
+  background-image: url("images/sri1.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* animation trigger */
+  opacity: 0;
+  transform: translateY(-40px);
+  animation: headerDrop 0.9s ease-out forwards;
+}
+
+/* Left & Right inside header (nav + logo) */
+header .left,
+header .right {
+  opacity: 0;
+}
+
+/* Slide from left */
+header .left {
+  animation: slideLeft 0.9s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+/* Slide from right */
+header .right {
+  animation: slideRight 0.9s ease-out forwards;
+  animation-delay: 0.45s;
+}
+
+/* KEYFRAMES */
+@keyframes headerDrop {
+  0% { opacity: 0; transform: translateY(-40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.restaurant-name {
+  font-size: 56px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 3px;
+
+  position: relative;   /* REQUIRED */
+  top: -20px;           /* move upwards */
+
+
+
+
+  /* 3D effect */
+  text-shadow: 
+    1px 1px 0px #ff8c00,
+    2px 2px 0px #ff7700,
+    3px 3px 0px #ff5500,
+    4px 4px 0px #cc4400,
+    5px 5px 12px rgba(0, 0, 0, 0.6);
+
+  /* smooth appear animation */
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: nameDrop 0.9s ease-out forwards;
+}
+
+/* tagline style */
+.tagline {
+  font-size: 14px;
+  color: #eee;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+
+/* Drop animation */
+@keyframes nameDrop {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 nav { display: flex; justify-content: space-between; align-items: center; position: relative; }
 .logo-text { text-align: center; flex: 1; }
-.restaurant-name {
-  font-size: 1.8rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px;
-  background: linear-gradient(270deg, #ff0080, #ff8c00, #00ffea, #ff0080);
-  background-size: 600% 600%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  animation: waveColors 6s ease infinite;
-}
+
 @keyframes waveColors {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -388,66 +465,6 @@ nav ul li a:hover { color: #0ff; text-shadow: 0 0 5px #0ff, 0 0 10px #0ff; }
 .nav {
   top:50px;
 }
-/* Hamburger button - bottom-right fixed */
-.hamburger { 
-  display: none; 
-  flex-direction: column; 
-  gap: 4px; 
-  cursor: pointer; 
-  position: fixed;    
-  bottom: 20px;       
-  right: 20px; 
-  z-index: 9999;     
-}
-
-.hamburger span { 
-  display: block; 
-  width: 25px; 
-  height: 3px; 
-  background: #fff; 
-  border-radius: 2px; 
-}
-
-/* Mobile menu panel on right side */
-.mobile-menu {
-  display: none;
-  position: fixed;           /* fixed to viewport */
-  top: 0;                    
-  right: 0;                  /* align right */
-  width: 200px;              /* menu width */
-  height: 100%;              /* full height */
-  background: rgba(0,0,0,0.95);
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 60px 20px 20px 20px;  /* leave space for hero or header */
-  gap: 20px;
-  box-shadow: -3px 0 10px rgba(0,0,0,0.5);
-  z-index: 9998;
-  transition: transform 0.3s ease;
-  transform: translateX(100%);  /* hidden by default */
-}
-
-.mobile-menu.active {
-  transform: translateX(0);   /* slide in */
-}
-
-.mobile-menu li {
-  list-style: none;
-}
-
-.mobile-menu li a {
-  font-size: 18px;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.mobile-menu li a:hover {
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-}
-
 /* Responsive */
 @media(max-width:768px){
   nav ul { display: none; }   /* hide desktop menu */
@@ -456,13 +473,41 @@ nav ul li a:hover { color: #0ff; text-shadow: 0 0 5px #0ff, 0 0 10px #0ff; }
     display: none;
   }
   header{
-    height: 150px;
+    height: 110px;
       width: 100%;
   padding: 15px 30px;
-  background-image: url("images/srikanya2.png");
+  background-image: url("images/sri3.png");
   background-size: cover;      /* makes the image fill the header */
   background-position: center; /* centers the image */
   background-repeat: no-repeat; /* prevents repeating */
+}
+/* ====== MOBILE RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .restaurant-name {
+    font-size: 36px;      /* smaller size for mobile */
+    top: -10px;           /* adjust vertical position */
+    letter-spacing: 2px;
+    position: relative;
+    left:-19px;
+    top:-50px;
+  }
+
+  .tagline {
+    font-size: 12px;
+    margin-top: -4px;     /* bring closer to name */
+  }
+}
+
+@media (max-width: 480px) {
+  .restaurant-name {
+    font-size: 30px;      /* even smaller for very small screens */
+    top: -8px;
+    letter-spacing: 1px;
+  }
+
+  .tagline {
+    font-size: 11px;
+  }
 }
 
   }
@@ -534,6 +579,14 @@ hamburger.addEventListener('click', () => {
 <!-- Gallery: copy-paste whole block -->
 <style>
 .gallery-container {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(126, 0, 105, 0.6);
+
+
+
+
+
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 10px;
@@ -544,6 +597,7 @@ hamburger.addEventListener('click', () => {
   margin: auto;
   height:100%;
 }
+
 
 .big-image img {
   width: 100%;
@@ -741,8 +795,7 @@ hamburger.addEventListener('click', () => {
 
 
 
-
-<section class="w-full max-w-6xl mx-auto py-10">
+<section class="mk-section w-full max-w-6xl mx-auto py-10">
   
   <h2 class="text-center text-4xl font-extrabold text-yellow-400 mb-10">
     🌟 Our Top Items
@@ -843,7 +896,8 @@ hamburger.addEventListener('click', () => {
   
 
 <style>
- 
+
+
 /* ========================== */
 /* Floating WhatsApp Button    */
 /* ========================== */
@@ -992,7 +1046,8 @@ hamburger.addEventListener('click', () => {
 /* ===== OUR CATEGORIES SECTION ===== */
 .categories-section {
   padding: 50px 20px;
-  background: #fff9f0;
+  background: #d8cef5;
+  border-radius: 30px;
 }
 
 .categories-title {
@@ -1125,8 +1180,8 @@ row.addEventListener('scroll', () => {
 .section-title{font-size:2rem;font-weight:800;background:linear-gradient(45deg,var(--accent1),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:18px 0}
 
 /* Top tabs */
-.tabs { display:flex; gap:10px; overflow-x:auto; padding:8px 0; }
-.tabs button { padding:8px 14px; border-radius:999px; border:none; background:#eee; cursor:pointer; font-weight:700; flex:0 0 auto; }
+.tabs { display:flex; gap:10px; overflow-x:auto; padding:8px 0; border-radius: 15px; }
+.tabs button { padding:8px 14px; border-radius:20px; border:none; background:#cafbff; cursor:pointer; font-weight:700; flex:0 0 auto; }
 .tabs button.active { background:linear-gradient(135deg,var(--accent1),var(--accent2)); color:#fff; transform:translateY(-2px); }
 
 /* Global sort */
@@ -2531,8 +2586,8 @@ setInterval(updateWeekendSpecials, 4000);
   <h3>Opening Hours</h3>
   <ul>
     <li><strong>Monday – Sunday</strong></li>
-    <li><span>Lunch</span> : 12:00 PM – 3:30 PM</li>
-    <li><span>Dinner</span> : 6:00 PM – 11:00 PM</li>
+    <li><span>Lunch & Dinner</span> : 11:00 AM – 11:00 PM</li>
+    
   </ul>
 </div>
 
