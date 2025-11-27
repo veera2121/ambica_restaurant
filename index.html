@@ -2149,24 +2149,24 @@ mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
     <div class="special-grid">
       <!-- Left Big Dish -->
       <div class="dish-large" id="dish-left">
-        <img src="images/f1.jpg" alt="Dish">
+        <img src="images/naatukodibiryani.webp" alt="Dish">
         <div class="dish-info">
           <div class="dish-name">Special Dish 1</div>
-          <div class="dish-price">₹199</div>
+          <div class="dish-price">550</div>
         </div>
       </div>
       
       <!-- Middle Small Dishes -->
       <div class="dish-middle-column">
         <div class="dish-small" id="dish-middle-top">
-          <img src="images/f2.jpg" alt="Dish">
+          <img src="images/spchickenbiryani.webp" alt="Dish">
           <div class="dish-info">
             <div class="dish-name">Special Dish 2</div>
             <div class="dish-price">₹149</div>
           </div>
         </div>
         <div class="dish-small" id="dish-middle-bottom">
-          <img src="images/f3.jpg" alt="Dish">
+          <img src="images/paneerbiryani.webp" alt="Dish">
           <div class="dish-info">
             <div class="dish-name">Special Dish 3</div>
             <div class="dish-price">₹179</div>
@@ -2176,7 +2176,7 @@ mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
       
       <!-- Right Big Dish -->
       <div class="dish-large" id="dish-right">
-        <img src="images/f4.jpg" alt="Dish">
+        <img src="images/kajubiryani.webp" alt="Dish">
         <div class="dish-info">
           <div class="dish-name">Special Dish 4</div>
           <div class="dish-price">₹229</div>
@@ -2330,16 +2330,16 @@ mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
 
 <script>
 const weekendSpecials = [
-  {img:"images/f1.jpg", name:"Paneer Butter Masala", price:199},
-  {img:"images/f2.jpg", name:"Veggie Burger", price:149},
-  {img:"images/f3.jpg", name:"Pasta Alfredo", price:179},
-  {img:"images/f4.jpg", name:"Grilled Sandwich", price:229},
-  {img:"images/f5.jpg", name:"Chocolate Cake", price:319},
-  {img:"images/f1.jpg", name:"Paneer Tikka", price:199},
-  {img:"images/f2.jpg", name:"Veg Wrap", price:129},
-  {img:"images/f3.jpg", name:"Garlic Bread", price:89},
-  {img:"images/f4.jpg", name:"Fruit Salad", price:149},
-  {img:"images/f5.jpg", name:"Mango Shake", price:99}
+  {img:"images/naatukodibiryani.webp", name:"Naatu Kodi biryani", price:550},
+  {img:"images/spchickenbiryani.webp", name:"Punjabi biryani", price:400},
+  {img:"images/paneerbiryani.webp", name:"SP Paneer biryani", price:320},
+  {img:"images/kajubiryani.webp", name:"Kaju biryani", price:229},
+  {img:"images/mushroombiryani.webp", name:"Mushroom biryani", price:300},
+  {img:"images/naatukodibiryani.webp", name:"Naatu Kodi biryani", price:550},
+  {img:"images/spchickenbiryani.webp", name:"Punjabi biryani", price:400},
+  {img:"images/paneerbiryani.webp", name:"SP Paneer biryani", price:320},
+  {img:"images/kajubiryani.webp", name:"Kaju biryani", price:229},
+  {img:"images/mushroombiryani.webp", name:"Mushroom biryani", price:300}
 ];
 
 let specialIndex = 0;
@@ -2376,7 +2376,7 @@ updateWeekendSpecials();
 setInterval(updateWeekendSpecials, 4000);
 </script>
 <!-- ===== HORIZONTAL SCROLL GALLERY SECTION ===== -->
-<section class="scroll-gallery-section">
+<section id = "gallery" class="scroll-gallery-section">
   <h2 class="scroll-gallery-title">Our Special Gallery</h2>
 
   <!-- ROW 1 -->
@@ -2529,8 +2529,6 @@ setInterval(updateWeekendSpecials, 4000);
 <scipt>
   
 </scipt>
-
-<!-- ===== CONTACT & MAP SECTION ===== -->
 <section id="contact" class="contact-section">
 
   <div class="container">
@@ -2538,34 +2536,37 @@ setInterval(updateWeekendSpecials, 4000);
 
     <div class="contact-wrapper">
 
-      <!-- Contact Form -->
+      <!-- CONTACT FORM -->
       <div class="contact-card contact-form">
-        <form id="contactForm">
+      
+<form id="contactForm">
+  <label>Name</label>
+  <input type="text" id="name" name="Name" required>
 
-          <label>Name</label>
-          <input type="text" id="name" required>
+  <label>Phone</label>
+  <input type="tel" id="phone" name="Phone" required>
 
-          <label>Email</label>
-          <input type="email" id="email" required>
+  <label>Message</label>
+  <textarea id="message" name="Message" rows="5" required></textarea>
 
-          <label>Message</label>
-          <textarea id="message" rows="5" required></textarea>
+  <!-- Hidden date field for Sheet Monkey -->
+  <input type="hidden" name="Created" value="x-sheetmonkey-current-date-time" />
 
-          <button type="submit">Send Message</button>
-          <p id="contactMsg"></p>
+  <button type="submit">Send Message</button>
+  <p id="contactMsg"></p>
+</form>
 
-        </form>
       </div>
 
-      <!-- Map & Info -->
+      <!-- RIGHT SIDE (MAP + DETAILS + HOURS) -->
       <div class="contact-right">
 
         <!-- GOOGLE MAP -->
         <div class="contact-card contact-map">
           <iframe 
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d489605.352233358!2d81.15875244140622!3d16.523986527973744!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a37db02b20e4ae3%3A0x161d9d877f13983!2sSrikanya%20Restaurant!5e0!3m2!1sen!2sin!4v1764078084791!5m2!1sen!2sin"
-            allowfullscreen="" 
-            loading="lazy" 
+            allowfullscreen 
+            loading="lazy"
             referrerpolicy="no-referrer-when-downgrade">
           </iframe>
         </div>
@@ -2573,32 +2574,32 @@ setInterval(updateWeekendSpecials, 4000);
         <!-- DETAILS -->
         <div class="contact-card contact-details">
           <h3>Our Address</h3>
-          <p>📍  Brodipet Rd, near Sri Rama Chandra Gardens, Brodipet, Palakollu, Andhra Pradesh 534260</p>
+          <p>📍 Brodipet Rd, Near Sri Rama Chandra Gardens, Palakollu, Andhra Pradesh 534260</p>
           <p>📞 +91 95530 26761</p>
-          <p></p>
-           <div class="sk-footer-box">
-     
-            <a href="tel:+9195530 26761" class="call-btn">📞 Call Now</a>
+
+          <div class="sk-footer-box">
+            <a href="tel:+919553026761" class="call-btn">📞 Call Now</a>
+          </div>
+        </div>
+
+        <!-- OPENING HOURS -->
+        <div class="opening-hours-box">
+          <h3>Opening Hours</h3>
+          <ul>
+            <li><strong>Monday – Sunday</strong></li>
+            <li><span>Lunch & Dinner</span>: 11:00 AM – 11:00 PM</li>
+          </ul>
         </div>
 
       </div>
-<div class="opening-hours-box">
-  <h3>Opening Hours</h3>
-  <ul>
-    <li><strong>Monday – Sunday</strong></li>
-    <li><span>Lunch & Dinner</span> : 11:00 AM – 11:00 PM</li>
-    
-  </ul>
-</div>
-
     </div>
-  </div>
 
+  </div>
 </section>
 
-
 <style>
-  /* ------- Section Base ------- */
+
+  /* ===== CONTACT SECTION ===== */
 .contact-section {
   padding: 70px 20px;
   background: linear-gradient(135deg, #d2ffea, #ffd4ff);
@@ -2620,7 +2621,7 @@ setInterval(updateWeekendSpecials, 4000);
   -webkit-text-fill-color: transparent;
 }
 
-/* ------- Layout ------- */
+/* Layout */
 .contact-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -2629,7 +2630,7 @@ setInterval(updateWeekendSpecials, 4000);
   align-items: flex-start;
 }
 
-/* ------- Cards ------- */
+/* Card Base */
 .contact-card {
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(10px);
@@ -2639,7 +2640,7 @@ setInterval(updateWeekendSpecials, 4000);
   width: 100%;
 }
 
-/* Left Form */
+/* Contact Form */
 .contact-form {
   flex: 1 1 420px;
 }
@@ -2658,7 +2659,6 @@ setInterval(updateWeekendSpecials, 4000);
   border-radius: 10px;
   border: 1px solid #ddd;
   font-size: 15px;
-  background: #fff;
   transition: 0.3s;
 }
 
@@ -2693,7 +2693,7 @@ setInterval(updateWeekendSpecials, 4000);
   color: green;
 }
 
-/* ------- Map & Details ------- */
+/* Right Section */
 .contact-right {
   flex: 1 1 420px;
   display: flex;
@@ -2705,9 +2705,10 @@ setInterval(updateWeekendSpecials, 4000);
   width: 100%;
   height: 300px;
   border: none;
+  border-radius: 14px;
 }
 
-/* Contact Info Box */
+/* Address Details */
 .contact-details h3 {
   font-size: 20px;
   font-weight: 800;
@@ -2720,6 +2721,8 @@ setInterval(updateWeekendSpecials, 4000);
   font-weight: 600;
   margin: 6px 0;
 }
+
+/* Call Button */
 .call-btn {
   display: inline-block;
   margin-top: 15px;
@@ -2728,82 +2731,84 @@ setInterval(updateWeekendSpecials, 4000);
   color: #fff;
   font-weight: 700;
   font-size: 16px;
-  text-decoration: none;
   border-radius: 12px;
-  transition: 0.3s;
+  text-decoration: none;
 }
 
 .call-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255,0,128,0.4);
 }
-/* Opening Hours Box */
+
+/* Opening Hours */
 .opening-hours-box {
-  margin-top: 15px;
   padding: 18px;
   border-radius: 14px;
-  background: rgba(255, 255, 255, 0.65);
+  background: rgba(255,255,255,0.65);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 0, 128, 0.15);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
 }
 
 .opening-hours-box h3 {
   font-size: 20px;
   font-weight: 800;
-  margin-bottom: 10px;
   background: linear-gradient(45deg, #ff8c00, #ff0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .opening-hours-box ul {
-  list-style: none;
   padding: 0;
   margin: 0;
+  list-style: none;
 }
 
 .opening-hours-box li {
   font-size: 15px;
   font-weight: 600;
   margin: 6px 0;
-  color: #444;
 }
 
-.opening-hours-box li span {
-  color: #ff0080;
-  font-weight: 700;
-}
-
-/* ------- Mobile ------- */
-@media(max-width: 768px) {
+/* Mobile */
+@media (max-width: 768px) {
   .section-title {
     font-size: 2rem;
-  }
-
-  .contact-card {
-    padding: 20px;
   }
 }
 
 </style>
+
 <script>
-// Contact form submit (dummy JS)
-document.getElementById('contactForm').addEventListener('submit', function(e){
+
+document.getElementById("contactForm").addEventListener("submit", function(e) {
   e.preventDefault();
-  const name = document.getElementById('name').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const msg = document.getElementById('message').value.trim();
 
-  if(!name || !email || !msg){
-    alert("Please fill all fields");
-    return;
-  }
+  const data = {
+    Name: document.getElementById("name").value,
+    Phone: document.getElementById("phone").value,
+    Message: document.getElementById("message").value,
+    Date: "x-sheetmonkey-current-date-time" // Changed column name to "Date"
+  };
 
-  // You can replace this with AJAX / Email API integration
-  document.getElementById('contactMsg').textContent = `Thank you, ${name}! Your message has been received.`;
-  this.reset();
+  fetch("https://api.sheetmonkey.io/form/cAWNFpSFDygUEvTZ9jxYt3", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => {
+    document.getElementById("contactMsg").innerText = "Message Sent Successfully!";
+    document.getElementById("contactForm").reset();
+  })
+  .catch(err => {
+    document.getElementById("contactMsg").innerText = "Something went wrong!";
+  });
 });
+</script>
+
+</script>
+
 </script>
 
 
@@ -2822,9 +2827,10 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
       <i class="icon fas fa-utensils"></i>
     </a>
 
-    <a href="#offers" class="button">
-      <i class="icon fas fa-tags"></i>
-    </a>
+   <a href="#contact" class="button">
+  <i class="icon fas fa-phone-alt"></i>
+</a>
+
 
   </div>
 </div>
@@ -2905,6 +2911,10 @@ html {
 }
 
 
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
 
 
 
@@ -2934,6 +2944,7 @@ function toggleMobileSearch() {
   <div class="sk-container">
 
     <!-- ===== About Section ===== -->
+     <section id = "about">
     <div class="sk-footer-box">
       <h3>About Srikanya</h3>
       <p>
@@ -2958,7 +2969,7 @@ function toggleMobileSearch() {
   </div>
 
 </footer>
-
+</section>
 <style>
   /* ================= Srikanya Restaurant Footer ================== */
 
