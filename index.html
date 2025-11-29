@@ -2235,140 +2235,182 @@ mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
 <style>/* =============================== */
 /*      WEEKEND SPECIAL SECTION    */
 /* =============================== */
+/* =============================== */
+/*      WEEKEND SPECIAL SECTION    */
+/* =============================== */
 
-.special-section { 
-  padding:50px 20px; 
-  background:#f8def7; 
+.special-section {
+  padding: 50px 20px;
+  background: #f8def7;
   border-radius: 30px;
 }
 
-.section-title { 
-  text-align:center; 
-  font-size:2rem; 
-  font-weight:800; 
-  background:linear-gradient(45deg,#ff8c00,#ff0080); 
-  -webkit-background-clip:text; 
-  -webkit-text-fill-color:transparent; 
-  margin-bottom:40px; 
+.container {
+  max-width: 1200px;     /* ensure enough room and centered layout */
+  margin: 0 auto;
 }
 
-.special-grid { 
-  display:flex; 
-  gap:20px; 
-  justify-content:center; 
-  align-items:flex-start; 
-  flex-wrap:wrap; 
+/* Title */
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 40px;
 }
 
-/* MAIN DISH BOXES */
-.dish-large, .dish-small { 
-  background:#fff;
-  border-radius:18px;
-  box-shadow:0 6px 20px rgba(0,0,0,0.12);
-  overflow:hidden;
-  transition:0.4s ease;
-  text-align:center;
+/* Grid: use flex, no-wrap on desktop */
+.special-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;  /* stretch children heights to same baseline */
+  flex-wrap: wrap;       /* allow wrap on very small screens; we'll prevent on larger screens in media query */
 }
 
-/* DEFAULT DESKTOP SIZE */
-.dish-large { 
-  width:350px; 
-  height:auto;
-}
-.dish-small { width:140px; }
-
-/* IMAGES */
-.dish-large img, .dish-small img {
-  width:100%;
-  height:250px;
-  object-fit:cover;
-  border-bottom:1px solid #eee;
-  transition:0.4s ease;
+/* Use flex-control instead of fixed width where possible */
+.dish-large,
+.dish-small {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: 0.4s ease;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.dish-small img { height:130px; }
+/* Default (desktop-ish) flex-basis values */
+.dish-large {
+  flex: 0 0 350px;   /* don't grow, don't shrink, base 350px */
+  height: auto;
+}
+.dish-small {
+  flex: 0 0 140px;
+}
 
-/* HOVER EFFECT */
+/* Images */
+.dish-large img,
+.dish-small img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-bottom: 1px solid #eee;
+  transition: 0.4s ease;
+}
+.dish-small img { height: 130px; }
+
+/* Hover effect */
 .dish-large:hover img,
 .dish-small:hover img {
-  transform:scale(1.05);
+  transform: scale(1.05);
 }
 
-/* TEXT BELOW IMAGE */
+/* Text area */
 .dish-info {
-  padding:10px 0;
+  padding: 10px 0;
+  /* keep dish-info at bottom if needed: */
+  margin-top: auto;
 }
 
 .dish-name {
-  font-size:15px;
-  font-weight:800;
-  background:linear-gradient(45deg,#ff8c00,#ff0080);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-size: 15px;
+  font-weight: 800;
+  background: linear-gradient(45deg, #ff8c00, #ff0080);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .dish-price {
-  font-size:14px;
-  font-weight:900;
-  color:#00857a;
-  margin-top:4px;
+  font-size: 14px;
+  font-weight: 900;
+  color: #00857a;
+  margin-top: 4px;
 }
 
+/* Middle column: make it a column and fill height of surrounding large dishes */
 .dish-middle-column {
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* make middle column take just enough width and stretch vertically */
+  flex: 0 0 160px;
+  justify-content: space-between; /* pushes the two small dishes to top & bottom */
 }
 
 /* ================================= */
-/*  DESKTOP — INCREASE LEFT/RIGHT    */
+/*  DESKTOP — increase left/right    */
 /* ================================= */
-@media(min-width:1025px) {
-  /* Increase width of left & right big dishes */
+@media (min-width: 1025px) {
+  /* keep everything on single row */
+  .special-grid { flex-wrap: nowrap; }
+
+  /* increase width of left & right big dishes */
   #dish-left,
   #dish-right {
-    width:420px !important;   /* adjust as needed */
+    flex: 0 0 400px;   /* fixed width for larger screens */
   }
 
   #dish-left img,
   #dish-right img {
-    height:320px !important;  /* increase image height */
+    height: 320px;
   }
+
+  /* Make sure middle column fills the height so its two small cards align */
+  .dish-middle-column {
+    flex: 0 0 200px;
+  }
+
+  .dish-small img { height: 150px; }
 }
 
 /* ====================== */
 /* 📱 MOBILE RESPONSIVE   */
 /* ====================== */
-@media(max-width:768px){
+@media (max-width: 768px) {
 
   .special-grid {
-    flex-direction:column;
-    align-items:center;
+    flex-direction: column;
+    align-items: center;
   }
 
-  /* BIGGER IMAGES IN MOBILE */
-  .dish-large { 
-    width:260px;
+  .dish-large {
+    width: 260px;
+    flex: 0 0 260px;
   }
   .dish-large img {
-    height:300px;
+    height: 300px;
   }
 
-  .dish-small { 
-    width:160px;
+  .dish-small {
+    width: 140px;
+    flex: 0 0 160px;
   }
   .dish-small img {
-    height:150px;
+    height: 150px;
   }
 
   .dish-middle-column {
-    flex-direction:row;
-    gap:20px;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    align-items: flex-start;
   }
 
-  /* Text slightly smaller */
-  .dish-name { font-size:14px; }
-  .dish-price { font-size:13px; }
+  .dish-name { font-size: 14px; }
+  .dish-price { font-size: 13px; }
+}
+@media (max-width: 768px) {
+
+  .special-section {
+    padding: 20px 10px !important;   /* reduce space */
+    border-radius: 0 !important;     /* remove rounded corners */
+    margin: 0 !important;            /* remove extra gaps */
+  }
+
 }
 
 
