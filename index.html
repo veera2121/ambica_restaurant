@@ -2239,181 +2239,162 @@ mosaicDots.innerHTML = `<button onclick="rotateMosaic()">●</button>`;
 /*      WEEKEND SPECIAL SECTION    */
 /* =============================== */
 
+/* MAIN SECTION */
 .special-section {
-  padding: 50px 20px;
-  background: #f8def7;
-  border-radius: 30px;
+  width:100%;
+  max-width:1200px;   /* keeps design centered */
+  margin:0 auto;       /* centers layout */
+  padding:50px 20px;
+  background:#f8def7;
+  border-radius:30px;
 }
 
-.container {
-  max-width: 1200px;     /* ensure enough room and centered layout */
-  margin: 0 auto;
-}
 
-/* Title */
 .section-title {
-  text-align: center;
-  font-size: 2rem;
-  font-weight: 800;
-  background: linear-gradient(45deg, #ff8c00, #ff0080);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 40px;
+  text-align:center;
+  font-size:2rem;
+  font-weight:800;
+  background:linear-gradient(45deg,#ff8c00,#ff0080);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:40px;
 }
 
-/* Grid: use flex, no-wrap on desktop */
+/* GRID */
 .special-grid {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-items: stretch;  /* stretch children heights to same baseline */
-  flex-wrap: wrap;       /* allow wrap on very small screens; we'll prevent on larger screens in media query */
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  align-items:flex-start;
+  flex-wrap:wrap;
 }
 
-/* Use flex-control instead of fixed width where possible */
-.dish-large,
-.dish-small {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  transition: 0.4s ease;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
+/* MAIN DISHES */
+.dish-large, .dish-small {
+  background:#fff;
+  border-radius:18px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.12);
+  overflow:hidden;
+  transition:0.4s ease;
+  text-align:center;
 }
 
-/* Default (desktop-ish) flex-basis values */
-.dish-large {
-  flex: 0 0 350px;   /* don't grow, don't shrink, base 350px */
-  height: auto;
-}
-.dish-small {
-  flex: 0 0 140px;
+.dish-large { width:350px; }
+.dish-small { width:140px; }
+
+/* IMAGES */
+.dish-large img, .dish-small img {
+  width:100%;
+  height:250px;
+  object-fit:cover;
+  border-bottom:1px solid #eee;
+  transition:0.4s ease;
 }
 
-/* Images */
-.dish-large img,
-.dish-small img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-bottom: 1px solid #eee;
-  transition: 0.4s ease;
-}
-.dish-small img { height: 130px; }
+.dish-small img { height:130px; }
 
-/* Hover effect */
-.dish-large:hover img,
-.dish-small:hover img {
-  transform: scale(1.05);
+/* HOVER */
+.dish-large:hover img, .dish-small:hover img {
+  transform:scale(1.05);
 }
 
-/* Text area */
-.dish-info {
-  padding: 10px 0;
-  /* keep dish-info at bottom if needed: */
-  margin-top: auto;
-}
+/* TEXT */
+.dish-info { padding:10px 0; }
 
 .dish-name {
-  font-size: 15px;
-  font-weight: 800;
-  background: linear-gradient(45deg, #ff8c00, #ff0080);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size:15px;
+  font-weight:800;
+  background:linear-gradient(45deg,#ff8c00,#ff0080);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
 }
 
 .dish-price {
-  font-size: 14px;
-  font-weight: 900;
-  color: #00857a;
-  margin-top: 4px;
+  font-size:14px;
+  font-weight:900;
+  color:#00857a;
+  margin-top:4px;
 }
 
-/* Middle column: make it a column and fill height of surrounding large dishes */
+/* Middle Column */
 .dish-middle-column {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  /* make middle column take just enough width and stretch vertically */
-  flex: 0 0 160px;
-  justify-content: space-between; /* pushes the two small dishes to top & bottom */
-}
-
-/* ================================= */
-/*  DESKTOP — increase left/right    */
-/* ================================= */
-@media (min-width: 1025px) {
-  /* keep everything on single row */
-  .special-grid { flex-wrap: nowrap; }
-
-  /* increase width of left & right big dishes */
-  #dish-left,
-  #dish-right {
-    flex: 0 0 400px;   /* fixed width for larger screens */
-  }
-
-  #dish-left img,
-  #dish-right img {
-    height: 320px;
-  }
-
-  /* Make sure middle column fills the height so its two small cards align */
-  .dish-middle-column {
-    flex: 0 0 200px;
-  }
-
-  .dish-small img { height: 150px; }
+  display:flex;
+  flex-direction:column;
+  gap:20px;
 }
 
 /* ====================== */
-/* 📱 MOBILE RESPONSIVE   */
+/* 🖥 DESKTOP LAYOUT      */
 /* ====================== */
-@media (max-width: 768px) {
+@media(min-width:1025px) {
 
   .special-grid {
-    flex-direction: column;
-    align-items: center;
+    flex-direction:row;
+    justify-content:center;
+    align-items:flex-start;
   }
 
+  /* Order fix */
+  #dish-left { order:1; }
+  .dish-middle-column { order:2; }
+  #dish-right { order:3; }
+
+  /* Bigger desktop width */
+  #dish-left, #dish-right {
+    width:420px !important;
+  }
+  #dish-left img, #dish-right img {
+    height:320px !important;
+  }
+}
+@media(max-width:1024px){
+  .special-grid {
+    justify-content:center;   /* re-center on mobile */
+    align-items:center;
+    text-align:center;        /* prevents push to right */
+  }
+
+  .dish-large,
+  .dish-small,
+  .dish-middle-column {
+    margin:0 auto;            /* center each block */
+  }
+}
+
+/* ====================== */
+/* 📱 MOBILE LAYOUT       */
+/* ====================== */
+@media(max-width:1024px){
+
+  
+
+  /* MOBILE ORDER */
+  #dish-left { order:1; }
+  .dish-middle-column { 
+    order:2;
+    flex-direction:row;
+    gap:20px;
+  }
+  #dish-right { order:3; }
+
+  /* Mobile sizing */
   .dish-large {
-    width: 260px;
-    flex: 0 0 260px;
+    width:260px;
   }
   .dish-large img {
-    height: 300px;
+    height:300px;
   }
 
   .dish-small {
-    width: 140px;
-    flex: 0 0 160px;
+    width:160px;
   }
   .dish-small img {
-    height: 150px;
+    height:150px;
   }
 
-  .dish-middle-column {
-    flex-direction: row;
-    gap: 20px;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
-  .dish-name { font-size: 14px; }
-  .dish-price { font-size: 13px; }
+  .dish-name { font-size:14px; }
+  .dish-price { font-size:13px; }
 }
-@media (max-width: 768px) {
-
-  .special-section {
-    padding: 20px 10px !important;   /* reduce space */
-    border-radius: 0 !important;     /* remove rounded corners */
-    margin: 0 !important;            /* remove extra gaps */
-  }
-
-}
-
-
 </style>
 
 <script>
